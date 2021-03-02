@@ -4,22 +4,43 @@
 #include "console.hpp"
 
 #include <cstring>
+#include "logger.hpp"
 
 
 namespace dsp::gui
 {
+Console::Console()
+    : m_command{}
+{
+    m_buffer = std::make_shared<common::lsrc::Stringlog::Buffer>();
+    common::Logger{}.set(std::make_unique<common::lsrc::Stringlog>(m_buffer));
+}
+
 void Console::handle()
 {
-    const auto fullcmd = std::string(m_command);
-    m_history += m_command;
-    m_history += '\0';
-    memset(&m_command[0], 0, 64);
-    process(fullcmd);
+    auto fullcmd = std::string(m_command);
+    fullcmd += '\n';
+    memset(&m_command[0], '\0', 64);
+    process(fullcmd);    
 }
 
-void Console::process(std::string )
+void Console::process(std::string command)
 {
-
+    common::Logger{} << command;
 }
+
+char* Console::history(std::size_t elements)
+{
+    if (m_buffer->isChanged())
+    {
+        m_history.clear();
+        for (auto&& log : m_buffer->tail(elements))
+        {
+            m_history += log;
+        }
+    }
+    return &m_history[0];
+}
+
 
 }  // namespace dsp::gui

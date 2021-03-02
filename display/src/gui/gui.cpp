@@ -40,28 +40,37 @@ void Gui::draw(sf::RenderWindow& window)
     if (m_isInit && m_isVisible)
     {
         ImGui::SFML::Update(window, m_deltaClock.restart());
-        ImGui::Begin("Config");
+        ImGui::Begin("Config", NULL, ImGuiWindowFlags_NoScrollbar);
         guiWindow();
         ImGui::End();
     }
 }
 
-void Gui::handleEnter()
+void Gui::guiWindow()
 {
-    if (m_isInit && m_isVisible)
+    ImGui::BeginChild("##history", ImVec2(0, -3*ImGui::GetTextLineHeight()), false,
+                      ImGuiInputTextFlags_ReadOnly |
+                      ImGuiInputTextFlags_Multiline |
+                      ImGuiInputTextFlags_NoHorizontalScroll);
+    ImGui::TextUnformatted(m_console.history());
+    ImGui::SetScrollHereY(0.999f);
+    ImGui::EndChild();
+
+    ImGui::Separator();
+
+    ImGui::PushItemWidth(-1);
+    if (ImGui::InputText("##command", m_console.buffer(),
+                         m_console.bufferSize(),
+                         ImGuiInputTextFlags_EnterReturnsTrue))
     {
         m_console.handle();
     }
-}
 
-void Gui::guiWindow()
-{
-    ImGui::InputTextMultiline("hist", m_console.history(), m_console.size(), ImVec2(0, 0),
-                              ImGuiInputTextFlags_ReadOnly |
-                              ImGuiInputTextFlags_Multiline |
-                              ImGuiInputTextFlags_NoHorizontalScroll);
-
-    ImGui::InputText("cmd", m_console.buffer(), m_console.bufferSize());
+    if (ImGui::IsItemHovered() || (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0)))
+    {
+        ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
+    }
+    ImGui::PopItemWidth();
 }
 
 void Gui::display(sf::RenderWindow& window)

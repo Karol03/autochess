@@ -4,8 +4,15 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(${PROJECT_NAME}
     STATIC
-        variableevent.hpp
-        variableevent.cpp
+
+    logger.cpp
+    logger.hpp
+    logsource/stream.hpp
+    logsource/stringlog.cpp
+    logsource/stringlog.hpp
+
+    variableevent.cpp
+    variableevent.hpp
 )
 
 set(COMMON_INCLUDES

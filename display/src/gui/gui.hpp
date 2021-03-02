@@ -22,7 +22,6 @@ public:
     void deinit();
     void display(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
-    void handleEnter();
     void init(sf::RenderWindow& window);
     void processEvent(sf::Event& event);
 

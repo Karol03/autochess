@@ -95,11 +95,6 @@ void Window::handle_events()
                 m_gui.setVisible(m_isGuiOpened);
                 return;
             }
-            else if (event.type == sf::Event::KeyPressed &&
-                     event.key.code == sf::Keyboard::Enter)
-            {
-                m_gui.handleEnter();
-            }
         }
 
         m_gui.draw(*m_window);
