@@ -7,7 +7,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "console.hpp"
-#include "movestream.hpp"
 
 
 namespace dsp::gui
@@ -26,7 +25,7 @@ public:
     void processEvent(sf::Event& event);
 
     inline void setVisible(bool isVisible) { m_isVisible = isVisible; }
-    inline void tie(MoveStreamPtr stream) { std::swap(m_stream, stream); }
+    inline void tie(MoveStreamPtr stream) { m_console.tie(std::move(stream)); }
 
 private:
     void guiWindow();
@@ -36,7 +35,6 @@ private:
     bool m_isVisible{false};
     sf::Clock m_deltaClock;
     Console m_console;
-    MoveStreamPtr m_stream;
 };
 
 }  // namespace dsp::gui

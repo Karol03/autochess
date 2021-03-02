@@ -159,6 +159,7 @@ void Window::reset()
     color_board();
     m_pieces.sort_pieces();
     m_drawablePieces = 0xFFFFFFFF;
+    m_map = PieceMap();
 }
 
 void Window::move(uint32_t from_to)

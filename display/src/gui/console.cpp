@@ -5,7 +5,9 @@
 
 #include <cstring>
 #include "logger.hpp"
+#include "cmdtranslator.hpp"
 
+#include <iostream>
 
 namespace dsp::gui
 {
@@ -21,12 +23,25 @@ void Console::handle()
     auto fullcmd = std::string(m_command);
     fullcmd += '\n';
     memset(&m_command[0], '\0', 64);
-    process(fullcmd);    
+    process(fullcmd);
 }
 
 void Console::process(std::string command)
 {
     common::Logger{} << command;
+    if (m_isBusy.exchange(true))
+    {
+        command = "[ERROR] process is busy\n";
+        common::Logger{} << command;
+    }
+    else
+    {
+        m_task = std::async([this, stream = m_stream, command]()
+        {
+            Translator{}.translateExecute(stream, command);
+            m_isBusy = false;
+        });
+    }
 }
 
 char* Console::history(std::size_t elements)

@@ -68,6 +68,7 @@ void PiecesImages::sort_pieces()
         auto pieceCopies = get_piece_copies_no(piece);
         while (pieceCopies--)
         {
+            m_sprites[pieceNo].setTexture(m_textures[i]);
             m_sprites[pieceNo].setPosition(
                         get_piece_position(piece, player, pieceCopies));
             ++pieceNo;

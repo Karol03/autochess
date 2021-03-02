@@ -22,6 +22,7 @@ public:
      */
     explicit OnboardConfig(std::string command);
     inline operator StreamItem() { return m_item; }
+    static std::string commands();
 
 protected:
     StreamItem m_item;

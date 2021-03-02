@@ -19,7 +19,7 @@ public:
     struct Buffer
     {
     public:
-        explicit Buffer(std::size_t size = 128);
+        explicit Buffer(std::size_t size = 130);
         std::vector<Log> all();
         std::vector<Log> head(std::size_t elements);
         std::vector<Log> tail(std::size_t elements);
@@ -36,7 +36,7 @@ public:
     private:
         std::atomic_bool m_isChanged;
         std::atomic_size_t m_begin;
-        std::atomic_size_t m_end;
+        std::atomic_size_t m_size;
         std::vector<Log> m_logs;
     };
 

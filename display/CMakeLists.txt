@@ -34,6 +34,8 @@ add_library(${PROJECT_NAME}
         src/gui/console.hpp
         src/gui/gui.cpp
         src/gui/gui.hpp
+        src/gui/cmdtranslator.cpp
+        src/gui/cmdtranslator.hpp
 
         external/concurrentqueue.h
 
@@ -41,25 +43,28 @@ add_library(${PROJECT_NAME}
 )
 
 set(DISPLAY_INCLUDES
-        ${CMAKE_CURRENT_SOURCE_DIR}/displayapi.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}
     CACHE PATH "Path to includes all of dependent libraries for display"
 )
 
 set(DISPLAY_LINK_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/SFML/lib
-        ${IMGUI_LINK_DIRECTORY}
     CACHE PATH "Dispaly library location"
 )
 
 set(DISPLAY_LIBRARY
         ${PROJECT_NAME}
+        ${IMGUI_LIBRARY}
     CACHE STRING "List of all libraries needed in project using display"
 )
 
-add_definitions(-DRESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources")
+set(DISPLAY_DEPENDENCIES_DLL_PATH
+       ${IMGUI_DLL_PATH}
+    CACHE PATH "Required DLL's path"
+)
 
-target_compile_definitions(display PRIVATE DISPLAY_LIBRARY)
+add_definitions(-DRESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources")
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE
@@ -67,3 +72,7 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/external
         ${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/SFML/include
 )
+
+target_link_libraries(${PROJECT_NAME} PUBLIC ${COMMON_LIBRARY})
+
+target_compile_definitions(display PRIVATE DISPLAY_LIBRARY)

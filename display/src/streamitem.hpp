@@ -40,10 +40,7 @@ public:
         }
     }
 
-    inline bool isAvailable()
-    {
-        return !m_moves.empty();
-    }
+    inline operator bool() const { return !m_moves.empty(); }
 
 private:
     MovesQueue m_moves;

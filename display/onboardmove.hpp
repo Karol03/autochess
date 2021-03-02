@@ -23,6 +23,7 @@ public:
      */
     explicit OnboardMove(std::string description);
     inline operator StreamItem() { return m_item; }
+    static std::string commands();
 
 protected:
     StreamItem m_item;

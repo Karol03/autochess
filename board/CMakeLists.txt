@@ -15,12 +15,12 @@ set(BOARD_INCLUDES
 
 set(BOARD_LIBRARY
         ${PROJECT_NAME}
-    CACHE STRING "Libraries list"
+    CACHE STRING "Board libraries list"
 )
 
 set(BOARD_LINK_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}
-    CACHE PATH "Directory link"
+    CACHE PATH "Board directory link"
 )
 
 target_compile_definitions(board PRIVATE BOARD_LIBRARY)

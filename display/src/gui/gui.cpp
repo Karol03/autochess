@@ -41,6 +41,7 @@ void Gui::draw(sf::RenderWindow& window)
     {
         ImGui::SFML::Update(window, m_deltaClock.restart());
         ImGui::Begin("Config", NULL, ImGuiWindowFlags_NoScrollbar);
+        ImGui::SetWindowSize(ImVec2(400, 160), ImGuiCond_FirstUseEver);
         guiWindow();
         ImGui::End();
     }
@@ -59,9 +60,16 @@ void Gui::guiWindow()
     ImGui::Separator();
 
     ImGui::PushItemWidth(-1);
-    if (ImGui::InputText("##command", m_console.buffer(),
+    if (m_console.isBusy())
+    {
+        ImGui::InputText("##command", m_console.buffer(),
                          m_console.bufferSize(),
-                         ImGuiInputTextFlags_EnterReturnsTrue))
+                         ImGuiInputTextFlags_ReadOnly);
+        ImGui::Text("Working...");
+    }
+    else if (ImGui::InputText("##command", m_console.buffer(),
+                              m_console.bufferSize(),
+                              ImGuiInputTextFlags_EnterReturnsTrue))
     {
         m_console.handle();
     }
